@@ -135,14 +135,13 @@ instance alternativeDList :: Alternative DList
 instance monadplusDList :: MonadPlus DList
 ```
 
+### Methods
 
 #### `unDList`
 
 ``` purescript
 unDList :: forall a. DList a -> Array a -> Array a
 ```
-
-### Methods
 Returns a concatenation function
 
 #### `toDList`
