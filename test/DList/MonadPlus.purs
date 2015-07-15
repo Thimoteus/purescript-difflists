@@ -1,12 +1,14 @@
 module Test.DList.MonadPlus where
 
+import Prelude
+
 import Test.QuickCheck
-import Debug.Trace
+import Control.Monad.Eff.Console
 import Control.Alt
 import Control.Plus
 import Control.Alternative
 import Control.MonadPlus
-import Data.DList hiding (cons)
+import Data.DList
 
 c :: DList String -> DList String
 c = id
@@ -18,8 +20,8 @@ cf :: (String -> DList Number) -> String -> DList Number
 cf = id
 
 main = do
-  trace "Distributivity:"
+  log "Distributivity:"
   quickCheck $ \ x y f -> ((c x <|> y) >>= (cf f)) == ((x >>= f) <|> (y >>= f))
 
-  trace "Annihilation:"
+  log "Annihilation:"
   quickCheck $ \ f -> ((c empty) >>= cf f) == (c' empty)

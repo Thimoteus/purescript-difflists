@@ -1,25 +1,27 @@
 module Test.DList.Isomorphism where
 
-import Test.QuickCheck
-import Debug.Trace
-import Data.DList hiding (cons)
+import Prelude
 
-f :: forall a. DList a -> [a]
+import Test.QuickCheck
+import Control.Monad.Eff.Console
+import Data.DList
+
+f :: forall a. DList a -> Array a
 f = fromDList
 
-g :: forall a. [a] -> DList a
+g :: forall a. Array a -> DList a
 g = toDList
 
 main = do
-  trace "toDList is the inverse of fromDList"
-  quickCheck $ \ xs -> (f <<< g $ xs) == (xs :: [Number])
+  log "toDList is the inverse of fromDList"
+  quickCheck $ \ xs -> (f <<< g $ xs) == (xs :: Array Number)
 
-  trace "fromDList is the inverse of toDList"
+  log "fromDList is the inverse of toDList"
   quickCheck $ \ dlx -> (g <<< f $ dlx) == (dlx :: DList Number)
 
-  trace "fromDList is a homomorphism to ([], ++)"
-  quickCheck $ \ dlx dly -> f (dlx >< dly) == (f dlx) ++ (f dly :: [Number])
+  log "fromDList is a homomorphism to ([], ++)"
+  quickCheck $ \ dlx dly -> f (dlx >< dly) == (f dlx) ++ (f dly :: Array Number)
 
-  trace "toDList is a homomorphism to (DList, ><)"
+  log "toDList is a homomorphism to (DList, ><)"
   quickCheck $ \ xs ys -> g (xs ++ ys) == (g xs) >< (g ys :: DList Number)
 

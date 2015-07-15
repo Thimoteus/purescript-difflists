@@ -1,13 +1,13 @@
 module Data.DList where
 
-import Prelude hiding (cons)
+import Prelude
 
-import Data.Array (map)
+import Data.Array ((:))
 import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
 
-import Test.QuickCheck
+import Test.QuickCheck.Arbitrary
 
 import Control.Alt
 import Control.Plus
@@ -22,8 +22,7 @@ instance showDList :: (Show a) => Show (DList a) where
   show (DList f) = "DList " ++ show (f []) ++ ""
 
 instance equalDList :: (Eq a) => Eq (DList a) where
-  (==) = (==) `on` fromDList
-  (/=) dl1 dl2 = not (dl1 == dl2)
+  eq = eq `on` fromDList
 
 instance ordDList :: (Ord a) => Ord (DList a) where
   compare = compare `on` fromDList
@@ -32,7 +31,7 @@ instance arbDList :: (Arbitrary a) => Arbitrary (DList a) where
   arbitrary = toDList <$> arbitrary
 
 instance semigroupDList :: Semigroup (DList a) where
-  (<>) = (><)
+  append = (><)
 
 instance monoidDList :: Monoid (DList a) where
   mempty = DList id
@@ -46,21 +45,21 @@ instance foldableDList :: Foldable DList where
 -- | `(<$>) g = foldr (cons <<< g) mempty`
 -- | is both slower and can exceed the maximum stack size
 instance functorDList :: Functor DList where
-  (<$>) g (DList h) = DList $ \ bs -> map g (h []) ++ bs
+  map g (DList h) = DList $ \ bs -> map g (h []) ++ bs
 
 instance applyDList :: Apply DList where
-  (<*>) (DList f) (DList x) = DList $ \ bs -> (f [] <*> (x [])) ++ bs
+  apply (DList f) (DList x) = DList $ \ bs -> (f [] <*> (x [])) ++ bs
 
 instance applicativeDList :: Applicative DList where
   pure = singleton
 
 instance bindDList :: Bind DList where
-  (>>=) m k = foldr ((<>) <<< k) mempty m
+  bind m k = foldr (append <<< k) mempty m
 
 instance monadDList :: Monad DList
 
 instance altDList :: Alt DList where
-  (<|>) = (><)
+  alt = append
 
 instance plusDList :: Plus DList where
   empty = mempty
@@ -75,7 +74,7 @@ instance monadplusDList :: MonadPlus DList
 unDList :: forall a. DList a -> Array a -> Array a
 unDList (DList f) = f
 
-toDList :: forall a. [a] -> DList a
+toDList :: forall a. Array a -> DList a
 toDList xs = DList (xs ++)
 
 fromDList :: forall a. DList a -> Array a

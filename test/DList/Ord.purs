@@ -1,15 +1,17 @@
 module Test.DList.Ord where
 
+import Prelude
+
 import Test.QuickCheck
-import Debug.Trace
-import Data.DList hiding (cons)
+import Control.Monad.Eff.Console
+import Data.DList
 
 main = do
-  trace "Reflexivity:"
+  log "Reflexivity:"
   quickCheck $ \ dlx -> dlx <= (dlx :: DList Number)
 
-  trace "Antisymmetry:"
+  log "Antisymmetry:"
   quickCheck $ \ dlx dly -> if dlx <= dly && dly <= dlx then dlx == dly else (dlx :: DList Number) /= (dly :: DList Number)
 
-  trace "Transitivity:"
+  log "Transitivity:"
   quickCheck $ \ dlx dly dlz -> if (dlx :: DList Number) <= (dly :: DList Number) && dly <= (dlz :: DList Number) then dlx <= dlz else (dlx > dly) || (dly > dlz)

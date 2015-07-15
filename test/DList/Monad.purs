@@ -1,8 +1,10 @@
 module Test.DList.Monad where
 
+import Prelude
+
 import Test.QuickCheck
-import Debug.Trace
-import Data.DList hiding (cons)
+import Control.Monad.Eff.Console
+import Data.DList
 
 cx :: DList Boolean -> DList Boolean
 cx = id
@@ -14,11 +16,11 @@ cg :: (String -> DList Number) -> String -> DList Number
 cg = id
 
 main = do
-  trace "Associativity:"
+  log "Associativity:"
   quickCheck $ \ x f g -> ((cx x >>= cf f) >>= cg g) == (x >>= (\ k -> f k >>= g))
 
-  trace "Left identity:"
+  log "Left identity:"
   quickCheck $ \ x f -> (pure (x :: Boolean) >>= (cf f)) == f x
 
-  trace "Right identity:"
+  log "Right identity:"
   quickCheck $ \ x -> (x >>= pure) == (cx x)

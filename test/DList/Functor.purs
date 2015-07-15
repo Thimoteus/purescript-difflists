@@ -1,12 +1,14 @@
 module Test.DList.Functor where
 
+import Prelude
+
 import Test.QuickCheck
-import Debug.Trace
-import Data.DList hiding (cons)
+import Control.Monad.Eff.Console
+import Data.DList 
 
 main = do
-  trace "Identity:"
+  log "Identity:"
   quickCheck $ \ dlx -> ((<$>) id) dlx == (dlx :: DList Number)
 
-  trace "Composition:"
+  log "Composition:"
   quickCheck $ \ f g dlx -> (<$>) ((f :: Number -> Number) <<< (g :: Number -> Number)) dlx == ((f <$>) <<< (g <$>)) (dlx :: DList Number)

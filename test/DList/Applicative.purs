@@ -1,8 +1,10 @@
 module Test.DList.Applicative where
 
+import Prelude
+
 import Test.QuickCheck
-import Debug.Trace
-import Data.DList hiding (cons)
+import Control.Monad.Eff.Console
+import Data.DList
 
 cf :: (DList (String -> Number)) -> (DList (String -> Number))
 cf = id
@@ -14,17 +16,17 @@ ch :: (DList Boolean) -> (DList Boolean)
 ch = id
 
 main = do
-  trace "Associative composition:"
+  log "Associative composition:"
   quickCheck $ \ f g h -> ((<<<) <$> (cf f) <*> (cg g) <*> (ch h)) == (f <*> (g <*> h))
 
-  trace "Identity:"
+  log "Identity:"
   quickCheck $ \ v -> (pure id) <*> (ch v) == v
 
-  trace "Composition:"
+  log "Composition:"
   quickCheck $ \ f g h -> (pure (<<<)) <*> (cf f) <*> (cg g) <*> (ch h) == f <*> (g <*> h)
 
-  trace "Homomorphism:"
+  log "Homomorphism:"
   quickCheck $ \ f x -> (pure f) <*> (pure x) == pure ((f :: String -> Boolean) (x :: String)) :: DList Boolean
 
-  trace "Interchange:"
+  log "Interchange:"
   quickCheck $ \ u y -> (cf u) <*> (pure (y :: String)) == (pure ($ y)) <*> u
