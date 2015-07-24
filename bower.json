@@ -1,6 +1,6 @@
 {
   "name": "purescript-difflist",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A data type for quickly appending arrays",
   "ignore": [
     "**/.*",
