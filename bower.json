@@ -1,7 +1,8 @@
 {
   "name": "purescript-difflist",
-  "version": "3.1.1",
+  "version": "2.0.0",
   "description": "A data type for quickly appending arrays",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "bower_components",
@@ -14,6 +15,8 @@
     "purescript-functions": "~0.1.0"
   },
   "devDependencies": {
-    "purescript-quickcheck": "~0.6.0"
+    "purescript-quickcheck": "~0.6.0",
+    "purescript-benchotron": "~2.1.0",
+    "purescript-sequences": "~0.4.1"
   }
 }

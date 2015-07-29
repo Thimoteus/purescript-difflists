@@ -2,7 +2,7 @@ module Data.DList where
 
 import Prelude
 
-import Data.Array ((:))
+import Data.List ((:), List(..), toList)
 import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
@@ -14,12 +14,12 @@ import Control.Plus
 import Control.Alternative
 import Control.MonadPlus
 
-newtype DList a = DList (Array a -> Array a)
+newtype DList a = DList (List a -> List a)
 
 -- | ## instances
 
 instance showDList :: (Show a) => Show (DList a) where
-  show (DList f) = "DList " ++ show (f []) ++ ""
+  show (DList f) = "DList " ++ show (f Nil) ++ ""
 
 instance equalDList :: (Eq a) => Eq (DList a) where
   eq = eq `on` fromDList
@@ -28,7 +28,10 @@ instance ordDList :: (Ord a) => Ord (DList a) where
   compare = compare `on` fromDList
 
 instance arbDList :: (Arbitrary a) => Arbitrary (DList a) where
-  arbitrary = toDList <$> arbitrary
+  arbitrary = (toDList :: Array a -> DList a) <$> arbitrary
+
+instance arbList :: (Arbitrary a) => Arbitrary (List a) where
+  arbitrary = (toList :: Array a -> List a) <$> arbitrary
 
 instance semigroupDList :: Semigroup (DList a) where
   append = (><)
@@ -45,10 +48,10 @@ instance foldableDList :: Foldable DList where
 -- | `(<$>) g = foldr (cons <<< g) mempty`
 -- | is both slower and can exceed the maximum stack size
 instance functorDList :: Functor DList where
-  map g (DList h) = DList $ \ bs -> map g (h []) ++ bs
+  map g (DList h) = DList $ \ bs -> map g (h Nil) ++ bs
 
 instance applyDList :: Apply DList where
-  apply (DList f) (DList x) = DList $ \ bs -> (f [] <*> (x [])) ++ bs
+  apply (DList f) (DList x) = DList $ \ bs -> (f Nil <*> (x Nil)) ++ bs
 
 instance applicativeDList :: Applicative DList where
   pure = singleton
@@ -71,14 +74,20 @@ instance monadplusDList :: MonadPlus DList
 -- | ## Methods
 
 -- | Returns a concatenation function
-unDList :: forall a. DList a -> Array a -> Array a
+unDList :: forall a. DList a -> List a -> List a
 unDList (DList f) = f
 
-toDList :: forall a. Array a -> DList a
-toDList xs = DList (xs ++)
+toDList :: forall f a. (Foldable f) => f a -> DList a
+toDList = foldr cons empty
 
-fromDList :: forall a. DList a -> Array a
-fromDList (DList f) = f []
+fromDList :: forall a. DList a -> List a
+fromDList (DList f) = f Nil
+
+list2DList :: forall a. List a -> DList a
+list2DList xs = DList (xs ++)
+
+dlist2List :: forall a. DList a -> List a
+dlist2List (DList f) = f Nil
 
 singleton :: forall a. a -> DList a
 singleton = DList <<< (:)
