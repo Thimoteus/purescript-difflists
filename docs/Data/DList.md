@@ -4,7 +4,7 @@
 
 ``` purescript
 newtype DList a
-  = DList (Array a -> Array a)
+  = DList (List a -> List a)
 ```
 
 ##### Instances
@@ -12,7 +12,6 @@ newtype DList a
 instance showDList :: (Show a) => Show (DList a)
 instance equalDList :: (Eq a) => Eq (DList a)
 instance ordDList :: (Ord a) => Ord (DList a)
-instance arbDList :: (Arbitrary a) => Arbitrary (DList a)
 instance semigroupDList :: Semigroup (DList a)
 instance monoidDList :: Monoid (DList a)
 instance foldableDList :: Foldable DList
@@ -30,7 +29,7 @@ instance monadplusDList :: MonadPlus DList
 #### `unDList`
 
 ``` purescript
-unDList :: forall a. DList a -> Array a -> Array a
+unDList :: forall a. DList a -> List a -> List a
 ```
 
 ## Methods
@@ -39,13 +38,25 @@ Returns a concatenation function
 #### `toDList`
 
 ``` purescript
-toDList :: forall a. Array a -> DList a
+toDList :: forall f a. (Foldable f) => f a -> DList a
 ```
 
 #### `fromDList`
 
 ``` purescript
-fromDList :: forall a. DList a -> Array a
+fromDList :: forall a. DList a -> List a
+```
+
+#### `list2DList`
+
+``` purescript
+list2DList :: forall a. List a -> DList a
+```
+
+#### `dlist2List`
+
+``` purescript
+dlist2List :: forall a. DList a -> List a
 ```
 
 #### `singleton`
