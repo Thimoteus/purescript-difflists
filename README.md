@@ -1,4 +1,4 @@
-# purescript-difflists
+# purescript-difflists [![Build Status](https://travis-ci.org/Thimoteus/purescript-difflists.svg?branch=master)](https://travis-ci.org/Thimoteus/purescript-difflists)
 
 A [difference list](https://wiki.haskell.org/Difference_list) supports fast appending on both sides. A difference list
 is just a function that takes a new list and appends it to the "contained" list. This means appending is reduced to
