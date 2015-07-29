@@ -15,6 +15,7 @@ instance ordDArray :: (Ord a) => Ord (DArray a)
 instance semigroupDArray :: Semigroup (DArray a)
 instance monoidDArray :: Monoid (DArray a)
 instance foldableDArray :: Foldable DArray
+instance unfoldableDList :: Unfoldable DArray
 instance functorDArray :: Functor DArray
 instance applyDArray :: Apply DArray
 instance applicativeDArray :: Applicative DArray

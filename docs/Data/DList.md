@@ -15,6 +15,7 @@ instance ordDList :: (Ord a) => Ord (DList a)
 instance semigroupDList :: Semigroup (DList a)
 instance monoidDList :: Monoid (DList a)
 instance foldableDList :: Foldable DList
+instance unfoldableDList :: Unfoldable DList
 instance functorDList :: Functor DList
 instance applyDList :: Apply DList
 instance applicativeDList :: Applicative DList
@@ -44,7 +45,7 @@ toDList :: forall f a. (Foldable f) => f a -> DList a
 #### `fromDList`
 
 ``` purescript
-fromDList :: forall a. DList a -> List a
+fromDList :: forall f a. (Unfoldable f) => DList a -> f a
 ```
 
 #### `list2DList`
@@ -81,10 +82,14 @@ DList concatenation
 cons :: forall a. a -> DList a -> DList a
 ```
 
+O(1) consing
+
 #### `snoc`
 
 ``` purescript
 snoc :: forall a. DList a -> a -> DList a
 ```
+
+O(1) snocing
 
 
