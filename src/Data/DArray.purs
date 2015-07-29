@@ -6,6 +6,9 @@ import Data.Array ((:))
 import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
+import Data.Unfoldable
+import Data.Maybe
+import Data.Tuple
 
 import Control.Alt
 import Control.Plus
@@ -35,6 +38,11 @@ instance foldableDArray :: Foldable DArray where
   foldr f b0 = foldr f b0 <<< fromDArray
   foldl f b0 = foldl f b0 <<< fromDArray
   foldMap f = foldMap f <<< fromDArray
+
+instance unfoldableDList :: Unfoldable DArray where
+  unfoldr f b0 = go $ f b0 where
+    go Nothing = empty
+    go (Just (Tuple a b)) = cons a (go $ f b)
 
 -- | the haskell port
 -- | `(<$>) g = foldr (cons <<< g) mempty`
