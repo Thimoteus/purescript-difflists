@@ -1,6 +1,6 @@
 {
   "name": "purescript-difflist",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A data type for quickly appending arrays",
   "license": "MIT",
   "ignore": [
