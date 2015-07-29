@@ -7,8 +7,6 @@ import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
 
-import Test.QuickCheck.Arbitrary
-
 import Control.Alt
 import Control.Plus
 import Control.Alternative
@@ -26,12 +24,6 @@ instance equalDList :: (Eq a) => Eq (DList a) where
 
 instance ordDList :: (Ord a) => Ord (DList a) where
   compare = compare `on` fromDList
-
-instance arbDList :: (Arbitrary a) => Arbitrary (DList a) where
-  arbitrary = (toDList :: Array a -> DList a) <$> arbitrary
-
-instance arbList :: (Arbitrary a) => Arbitrary (List a) where
-  arbitrary = (toList :: Array a -> List a) <$> arbitrary
 
 instance semigroupDList :: Semigroup (DList a) where
   append = (><)

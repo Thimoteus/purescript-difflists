@@ -6,6 +6,7 @@ import Test.QuickCheck
 import Control.Monad.Eff.Console
 import Data.Monoid
 import Data.DList
+import Test.DList.Instances
 
 main = do
   log "Associativity:"

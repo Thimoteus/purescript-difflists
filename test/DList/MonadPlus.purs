@@ -9,6 +9,7 @@ import Control.Plus
 import Control.Alternative
 import Control.MonadPlus
 import Data.DList
+import Test.DList.Instances
 
 c :: DList String -> DList String
 c = id

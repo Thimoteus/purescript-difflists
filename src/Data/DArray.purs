@@ -7,8 +7,6 @@ import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
 
-import Test.QuickCheck.Arbitrary
-
 import Control.Alt
 import Control.Plus
 import Control.Alternative
@@ -26,9 +24,6 @@ instance equalDArray :: (Eq a) => Eq (DArray a) where
 
 instance ordDArray :: (Ord a) => Ord (DArray a) where
   compare = compare `on` fromDArray
-
-instance arbDArray :: (Arbitrary a) => Arbitrary (DArray a) where
-  arbitrary = toDArray <$> arbitrary
 
 instance semigroupDArray :: Semigroup (DArray a) where
   append = (><)

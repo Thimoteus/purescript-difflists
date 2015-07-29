@@ -5,6 +5,7 @@ import Prelude
 import Test.QuickCheck
 import Control.Monad.Eff.Console
 import Data.DList
+import Test.DList.Instances
 
 cf :: (DList (String -> Number)) -> (DList (String -> Number))
 cf = id

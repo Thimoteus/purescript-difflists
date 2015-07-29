@@ -8,6 +8,7 @@ import Control.Alt
 import Control.Plus
 import Control.Alternative
 import Data.DList
+import Test.DList.Instances
 
 c :: DList String -> DList String
 c = id
