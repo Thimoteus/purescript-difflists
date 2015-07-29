@@ -3,6 +3,10 @@
   "version": "2.1.0",
   "description": "A data type for quickly appending arrays",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thimoteus/purescript-difflists.git"
+  },
   "ignore": [
     "**/.*",
     "bower_components",
