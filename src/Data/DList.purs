@@ -2,11 +2,11 @@ module Data.DList where
 
 import Prelude
 
-import Data.List ((:), List(..), toList, fromList)
+import Data.List ((:), List(..), fromList)
 import Data.Function (on)
 import Data.Foldable
 import Data.Monoid
-import Data.Unfoldable
+import Data.Unfoldable hiding (singleton)
 import Data.Maybe
 import Data.Tuple
 
@@ -41,12 +41,12 @@ instance foldableDList :: Foldable DList where
 
 instance unfoldableDList :: Unfoldable DList where
   unfoldr f b0 = go $ f b0 where
-    go Nothing = empty
+    go Nothing = mempty
     go (Just (Tuple a b)) = cons a (go $ f b)
 
--- | the haskell port
--- | `(<$>) g = foldr (cons <<< g) mempty`
--- | is both slower and can exceed the maximum stack size
+-- the haskell port
+-- `(<$>) g = foldr (cons <<< g) mempty`
+-- is both slower and can exceed the maximum stack size
 instance functorDList :: Functor DList where
   map g (DList h) = DList $ \ bs -> map g (h Nil) ++ bs
 
@@ -78,7 +78,7 @@ unDList :: forall a. DList a -> List a -> List a
 unDList (DList f) = f
 
 toDList :: forall f a. (Foldable f) => f a -> DList a
-toDList = foldr cons empty
+toDList = foldr cons mempty
 
 fromDList :: forall f a. (Unfoldable f) => DList a -> f a
 fromDList (DList f) = fromList $ f Nil 

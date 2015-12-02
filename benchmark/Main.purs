@@ -22,8 +22,8 @@ import Benchotron.UI.Console
 bimap :: forall a b c d. (a -> b) -> (c -> d) -> Tuple a c -> Tuple b d
 bimap f g (Tuple x y) = Tuple (f x) (g y)
 
-benchAppend :: forall e. Benchmark e
-benchAppend = mkBenchmark
+benchAppendTwo :: forall e. Benchmark e
+benchAppendTwo = mkBenchmark
   { slug: "append"
   , title: "Append two structures together"
   , sizes: (1..50) <#> (*100)
@@ -31,7 +31,7 @@ benchAppend = mkBenchmark
   , inputsPerSize: 1
   , gen: \n -> Tuple <$> randomArray n <*> randomArray n
   , functions: -- [ benchFn "Array" (uncurry (<>))
-               [ benchFn' "DList" (uncurry (<>)) (bimap DL.toDList DL.toDList)
+               [ benchFn' "DList" (DL.dlist2List <<< uncurry (<>)) (bimap DL.toDList DL.toDList)
                -- , benchFn' "DArray" (uncurry (<>)) (bimap DA.toDArray DA.toDArray)
                , benchFn' "List" (uncurry (<>)) (bimap L.toList L.toList)
                -- , benchFn' "Seq"  (S.fullyForce <<< uncurry (<>))
@@ -39,8 +39,21 @@ benchAppend = mkBenchmark
                ]
   }
 
+benchAppendMany :: forall e. Benchmark e
+benchAppendMany = mkBenchmark
+  { slug: "appendmany"
+  , title: "Append many two-element structures together"
+  , sizes: (1..50) <#> (*50)
+  , sizeInterpretation: "Number of structures"
+  , inputsPerSize: 1
+  , gen: \n -> randomArrays n n
+  , functions: [ benchFn' "DList" (DL.dlist2List <<< foldMap id) (map DL.toDList)
+               , benchFn' "List" (foldMap id) (map L.toList) ]
+  }
+
 main =
   runSuite
-    [ benchAppend ]
+    [ benchAppendMany ]
 
 foreign import randomArray :: forall e. Int -> Eff (BenchEffects e) (Array Number)
+foreign import randomArrays :: forall e. Int -> Int -> Eff (BenchEffects e) (Array (Array Number))
