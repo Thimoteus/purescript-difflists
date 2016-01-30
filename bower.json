@@ -13,11 +13,11 @@
     "output"
   ],
   "dependencies": {
-    "purescript-arrays": "~0.4.3",
-    "purescript-monoid": "~0.3.2",
     "purescript-foldable-traversable": "~0.4.2",
+    "purescript-arrays": "~0.4.4",
+    "purescript-monoid": "~0.3.2",
     "purescript-functions": "~0.1.0",
-    "purescript-lists": "~0.7.7"
+    "purescript-lists": "~0.7.9"
   },
   "devDependencies": {
     "purescript-quickcheck": "~0.12.1",
