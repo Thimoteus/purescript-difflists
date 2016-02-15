@@ -1,6 +1,6 @@
 {
   "name": "purescript-difflists",
-  "version": "2.1.0",
+  "version": "3.0.1",
   "description": "A data type for fast concatenation.",
   "main": "src/Data/DList.purs",
   "directories": {

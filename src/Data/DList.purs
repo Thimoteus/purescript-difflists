@@ -1,19 +1,19 @@
 module Data.DList where
 
-import Prelude
+import Prelude (class Monad, class Bind, class Applicative, class Apply, class Functor, class Semigroup, class Ord, class Eq, class Show, (<<<), (++), ($), append, (<*>), map, id, compare, eq, show)
 
 import Data.List ((:), List(..), fromList)
 import Data.Function (on)
-import Data.Foldable
-import Data.Monoid
-import Data.Unfoldable hiding (singleton)
-import Data.Maybe
-import Data.Tuple
+import Data.Foldable (class Foldable, foldr, foldMap, foldl)
+import Data.Monoid (class Monoid, mempty)
+import Data.Unfoldable (class Unfoldable)
+import Data.Maybe (Maybe(..))
+import Data.Tuple (Tuple(..))
 
-import Control.Alt
-import Control.Plus
-import Control.Alternative
-import Control.MonadPlus
+import Control.Alt (class Alt)
+import Control.Plus (class Plus)
+import Control.Alternative (class Alternative)
+import Control.MonadPlus (class MonadPlus)
 
 newtype DList a = DList (List a -> List a)
 
@@ -93,9 +93,10 @@ singleton :: forall a. a -> DList a
 singleton = DList <<< (:)
 
 -- | DList concatenation
-(><) :: forall a. DList a -> DList a -> DList a
-(><) (DList f) (DList g) = DList (f <<< g)
-infixr 5 ><
+concat :: forall a. DList a -> DList a -> DList a
+concat (DList f) (DList g) = DList (f <<< g)
+
+infixr 5 concat as ><
 
 -- | O(1) consing
 cons :: forall a. a -> DList a -> DList a
