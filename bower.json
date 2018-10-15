@@ -1,6 +1,6 @@
 {
   "name": "purescript-difflists",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A data type for quickly appending lists",
   "license": "MIT",
   "repository": {
@@ -9,19 +9,19 @@
   },
   "ignore": [
     "**/.*",
+    "node_modules",
     "bower_components",
     "output"
   ],
   "dependencies": {
-    "purescript-foldable-traversable": "^0.4.2",
-    "purescript-arrays": "^0.4.4",
-    "purescript-monoid": "^0.3.2",
-    "purescript-functions": "^0.1.0",
-    "purescript-lists": "^0.7.9"
+    "purescript-prelude": "^4.1.0",
+    "purescript-console": "^4.1.0",
+    "purescript-effect": "^2.0.0",
+    "purescript-lists": "^5.3.0",
+    "purescript-quickcheck": "^5.0.0"
   },
   "devDependencies": {
-    "purescript-quickcheck": "~0.12.1",
-    "purescript-benchotron": "~3.0.3",
-    "purescript-sequences": "~0.4.2"
+    "purescript-psci-support": "^4.0.0",
+    "purescript-benchotron": "^7.0.0"
   }
 }

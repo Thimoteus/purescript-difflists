@@ -4,13 +4,13 @@
 set -e
 
 # cheat to put Benchmark.Main in the pulp source path
-rm -rf src/tmp
-mkdir -p src/tmp
-ln -s ../../benchmark/Main.purs src/tmp/Benchmark.Main.purs
-ln -s ../../benchmark/Main.js src/tmp/Benchmark.Main.js
+rm -rf src/Benchmark
+mkdir -p src/Benchmark
+ln -s ../../benchmark/Main.purs src/Benchmark/Main.purs
+ln -s ../../benchmark/Main.js src/Benchmark/Main.js
 
 pulp build
 
 mkdir -p tmp
-NODE_PATH=./output browserify benchmark/run.js --node -o tmp/benchmarks.js
-node tmp/benchmarks.js
+pulp build --main Benchmark.Main --to tmp/benchmark.js
+node tmp/benchmark.js

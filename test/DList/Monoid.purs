@@ -3,12 +3,11 @@ module Test.DList.Monoid where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Data.Monoid
 import Data.DList
-import Test.DList.Instances
 
-main = do
+spec = do
   log "Associativity:"
   quickCheck $ \ dla dlb dlc -> (dla <> dlb) <> dlc == dla <> (dlb <> (dlc :: DList Number))
 

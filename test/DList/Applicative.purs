@@ -3,31 +3,33 @@ module Test.DList.Applicative where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Data.DList
-import Test.DList.Instances
 
 cf :: (DList (String -> Number)) -> (DList (String -> Number))
-cf = id
+cf = identity
 
 cg :: (DList (Boolean -> String)) -> (DList (Boolean -> String))
-cg = id
+cg = identity
 
 ch :: (DList Boolean) -> (DList Boolean)
-ch = id
+ch = identity
 
-main = do
+spec = do
   log "Associative composition:"
   quickCheck $ \ f g h -> ((<<<) <$> (cf f) <*> (cg g) <*> (ch h)) == (f <*> (g <*> h))
 
   log "Identity:"
-  quickCheck $ \ v -> (pure id) <*> (ch v) == v
+  quickCheck $ \ v -> ((pure identity) <*> (ch v)) == v
 
   log "Composition:"
-  quickCheck $ \ f g h -> (pure (<<<)) <*> (cf f) <*> (cg g) <*> (ch h) == f <*> (g <*> h)
+  quickCheck $ 
+    \ f g h -> 
+      ((pure (<<<)) <*> (cf f) <*> (cg g) <*> (ch h)) == (f <*> (g <*> h))
 
   log "Homomorphism:"
-  quickCheck $ \ f x -> (pure f) <*> (pure x) == pure ((f :: String -> Boolean) (x :: String)) :: DList Boolean
+  quickCheck $ \ f x -> ((pure f) <*> (pure x)) == (pure ((f :: String -> Boolean) (x :: String)) :: DList Boolean)
 
   log "Interchange:"
-  quickCheck $ \ u y -> (cf u) <*> (pure (y :: String)) == (pure ($ y)) <*> u
+  quickCheck $ \ u y -> 
+    ((cf u) <*> (pure (y :: String))) == ((pure (_ $ y)) <*> u)

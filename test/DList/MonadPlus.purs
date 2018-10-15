@@ -3,24 +3,23 @@ module Test.DList.MonadPlus where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Control.Alt
 import Control.Plus
 import Control.Alternative
 import Control.MonadPlus
 import Data.DList
-import Test.DList.Instances
 
 c :: DList String -> DList String
-c = id
+c = identity
 
 c' :: DList Number -> DList Number
-c' = id
+c' = identity
 
 cf :: (String -> DList Number) -> String -> DList Number
-cf = id
+cf = identity
 
-main = do
+spec = do
   log "Distributivity:"
   quickCheck $ \ x y f -> ((c x <|> y) >>= (cf f)) == ((x >>= f) <|> (y >>= f))
 

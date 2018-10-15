@@ -1,6 +1,6 @@
 {
   "name": "purescript-difflists",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A data type for fast concatenation.",
   "main": "src/Data/DList.purs",
   "directories": {
@@ -8,19 +8,16 @@
     "test": "test"
   },
   "scripts": {
-    "test": "pulp test"
+    "bench": "./benchmark/run.sh"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thimoteus/purescript-difflists.git"
   },
-  "scripts": {
-    "bench": "./benchmark/run.sh"
-  },
   "devDependencies": {
-    "pulp": "^4.0.2",
-    "benchmark": "~1.0.0",
-    "microtime": "~1.2.0"
+    "benchmark": "^2.1.4",
+    "microtime": "^2.1.8",
+    "pulp": "^12.3.0"
   },
   "keywords": [
     "purescript",

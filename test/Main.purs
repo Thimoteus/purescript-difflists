@@ -1,31 +1,23 @@
 module Test.Main where
 
 import Prelude
+import Effect (Effect)
+import Test.DList.Alternative as Alternative
+import Test.DList.Functor as Functor
+import Test.DList.MonadPlus as MonadPlus
+import Test.DList.Monoid as Monoid
+import Test.DList.Applicative as Applicative
+import Test.DList.Isomorphism as Isomorphism
+import Test.DList.Monad as Monad
+import Test.DList.Ord as Ord
 
-import Control.Monad.Eff.Console
-
+main :: Effect Unit
 main = do
-
-  log "Running isomorphism tests ..."
-  Test.DList.Isomorphism.main
-
-  log "Running partial order tests ..."
-  Test.DList.Ord.main
-
-  log "Running monoid tests ..."
-  Test.DList.Monoid.main
-
-  log "Running functor tests ..."
-  Test.DList.Functor.main
-
-  log "Running applicative tests ..."
-  Test.DList.Applicative.main
-
-  log "Running monad tests ..."
-  Test.DList.Monad.main
-
-  log "Running alternative tests ..."
-  Test.DList.Alternative.main
-
-  log "Running monadplus tests ..."
-  Test.DList.MonadPlus.main
+  Alternative.spec
+  Functor.spec
+  MonadPlus.spec
+  Monoid.spec
+  Applicative.spec
+  Isomorphism.spec
+  Monad.spec
+  Ord.spec
