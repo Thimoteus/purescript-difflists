@@ -3,29 +3,28 @@ module Test.DList.Alternative where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Control.Alt
 import Control.Plus
 import Control.Alternative
 import Data.DList
-import Test.DList.Instances
 
 c :: DList String -> DList String
-c = id
+c = identity
 
 c' :: DList Boolean -> DList Boolean
-c' = id
+c' = identity
 
 c'' :: DList Number -> DList Number
-c'' = id
+c'' = identity
 
 cf :: (String -> Boolean) -> String -> Boolean
-cf = id
+cf = identity
 
 cg :: DList (String -> Number) -> DList (String -> Number)
-cg = id
+cg = identity
 
-main = do
+spec = do
   -- Alt
   log "Associativity:"
   quickCheck $ \ x y z -> ((c x <|> c y) <|> c z) == (x <|> (y <|> z))

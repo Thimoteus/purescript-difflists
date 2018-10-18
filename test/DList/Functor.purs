@@ -3,13 +3,15 @@ module Test.DList.Functor where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Data.DList 
-import Test.DList.Instances
 
-main = do
+spec = do
   log "Identity:"
-  quickCheck $ \ dlx -> ((<$>) id) dlx == (dlx :: DList Number)
+  quickCheck $ \ dlx -> ((<$>) identity) dlx == (dlx :: DList Number)
 
   log "Composition:"
-  quickCheck $ \ f g dlx -> (<$>) ((f :: Number -> Number) <<< (g :: Number -> Number)) dlx == ((f <$>) <<< (g <$>)) (dlx :: DList Number)
+  quickCheck $ 
+    \ f g dlx -> 
+      (<$>) ((f :: Number -> Number) <<< (g :: Number -> Number)) 
+        dlx == ((f <$> _) <<< (g <$>_)) (dlx :: DList Number)

@@ -3,20 +3,19 @@ module Test.DList.Monad where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Data.DList
-import Test.DList.Instances
 
 cx :: DList Boolean -> DList Boolean
-cx = id
+cx = identity
 
 cf :: (Boolean -> DList String) -> Boolean -> DList String
-cf = id
+cf = identity
 
 cg :: (String -> DList Number) -> String -> DList Number
-cg = id
+cg = identity
 
-main = do
+spec = do
   log "Associativity:"
   quickCheck $ \ x f g -> ((cx x >>= cf f) >>= cg g) == (x >>= (\ k -> f k >>= g))
 

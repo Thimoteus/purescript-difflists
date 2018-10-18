@@ -3,11 +3,10 @@ module Test.DList.Ord where
 import Prelude
 
 import Test.QuickCheck
-import Control.Monad.Eff.Console
+import Effect.Console (log)
 import Data.DList
-import Test.DList.Instances
 
-main = do
+spec = do
   log "Reflexivity:"
   quickCheck $ \ dlx -> dlx <= (dlx :: DList Number)
 
